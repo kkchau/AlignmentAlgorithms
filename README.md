@@ -1,2 +1,2 @@
-# NeedlemanWunsch
-Because every bioinformatician implements this at some point
+# Sequence Alignment Algorithms
+Scripts to align sequences together with penalties. Includes global and local alignment algorithms
