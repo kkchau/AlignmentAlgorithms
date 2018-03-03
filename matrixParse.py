@@ -1,38 +1,30 @@
 #!/usr/bin/env python3
-# Parse tab-delimited penalty matrices
+# Parse tab-delimited penalty matrices and output to JSON
 # author:   Kevin Chau
 
+import json
 
-blosum62_penalties_raw = []
-blosum62 = {}
-with open('blosum62.txt', 'r') as blos:
-    b_lines = blos.readlines()
-    letters = b_lines[0].strip().split()
-    for pen_set in b_lines[1:]:
-        blosum62_penalties_raw.append(pen_set.strip().split()[1:])
-for v, let_v in enumerate(letters):
-    for h, let_h in enumerate(letters):
-        blosum62[(let_v, let_h)] = int(blosum62_penalties_raw[v][h])
 
-pam250_penalties_raw = []
-pam250 = {}
-with open('pam250.txt', 'r') as blos:
-    b_lines = blos.readlines()
-    letters = b_lines[0].strip().split()
-    for pen_set in b_lines[1:]:
-        pam250_penalties_raw.append(pen_set.strip().split()[1:])
-for v, let_v in enumerate(letters):
-    for h, let_h in enumerate(letters):
-        pam250[(let_v, let_h)] = int(pam250_penalties_raw[v][h])
+def parse_matrix(pen_mat):
+    """Parse penalty matrix from file
 
-basic_penalties_raw = []
-basic = {}
-with open('BASIC.txt', 'r') as blos:
-    b_lines = blos.readlines()
-    letters = b_lines[0].strip().split()
-    for pen_set in b_lines[1:]:
-        basic_penalties_raw.append(pen_set.strip().split()[1:])
-for v, let_v in enumerate(letters):
-    for h, let_h in enumerate(letters):
-        basic[(let_v, let_h)] = int(basic_penalties_raw[v][h])
+    Keyword arguments:
+        pen_mat --  Penalty matrix file
 
+    Returns:
+        Dictionary of amino acid single-letter code pairs to penalty values
+    """
+    penalties_raw = []
+    penalties = {}
+    matrix_lines = [_.strip().split() for _ in pen_mat.readlines()]
+    letters = matrix_lines[0]
+    for pen_set in matrix_lines[1:]:
+        penalties_raw.append(pen_set[1:])
+    for v, let_v in enumerate(letters):
+        for h, let_h in enumerate(letters):
+            penalties["{}.{}".format(let_v, let_h)] = int(penalties_raw[v][h])
+    return penalties
+
+json.dump(parse_matrix(open('blosum62.txt', 'r')), open('blosum62.json', 'w'))
+json.dump(parse_matrix(open('PAM250.txt', 'r')) , open('pam250.json', 'w'))
+json.dump(parse_matrix(open('BASIC.txt', 'r')), open('basic.json', 'w'))

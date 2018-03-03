@@ -269,9 +269,6 @@ def affine_alignment(string1, string2, mu_mat, sigma, epsilon):
                 backtrack[i][j] = 0
 
     print('\n'.join(str(x) for x in backtrack) + '\n')
-    # print('\n'.join(str(x) for x in l) + '\n')
-    # print('\n'.join(str(x) for x in m) + '\n')
-    # print('\n'.join(str(x) for x in u) + '\n')
 
     curr_node = (len(string1), len(string2))
     while curr_node[0] > 0 or curr_node[1] > 0:
