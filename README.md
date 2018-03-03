@@ -4,7 +4,7 @@ Scripts to align sequences together with penalties. Includes global and local al
 TODO: Fix and test affine gap alignment
 
 ## Instructions
-infile.txt is a text file with two strings of amino acids; see test files for formatting.
+infile.txt is a text file with two strings of amino acids; see test files for formatting.   
 Global alignment:
 ```bash
 ./global_aligment.py <infile.txt> <('blosum62', 'pam250', 'basic')> <sigma value>
