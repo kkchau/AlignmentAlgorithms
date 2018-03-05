@@ -2,7 +2,7 @@
 # Implementation of the Needleman-Wunsch Global Alignment Algorithm
 # author:   Kevin Chau
 
-import sys, json
+import sys, json, argparse
 
 penalty_matrices = {
         'blosum62': 'blosum62.json',
@@ -87,7 +87,7 @@ def global_alignment(string1, string2, pen_mat, sigma):
     return alignment_score, top_string[::-1], bot_string[::-1]
 
 
-def affine_alignment(string1, string2, mu_mat, sigma, epsilon):
+def affine_alignment(string1, string2, pen_mat, sigma, epsilon):
     """ Global alignment of two amino acid strings with affine gap penalties
 
     Keyword arguments:
@@ -102,6 +102,9 @@ def affine_alignment(string1, string2, mu_mat, sigma, epsilon):
     epsilon = int(epsilon)
     top_string = ''
     bot_string = ''
+
+    # case switching for penalty matrix
+    mu_mat = json.load(open(penalty_matrices[pen_mat], 'r'))
 
     # backtrack matrix
     backtrack = [[None for _ in range(len(string2) + 1)]
